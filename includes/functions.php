@@ -126,7 +126,8 @@ function salt($str_length)
 	}
 	return $key;
 }
-function select_entry($name, $value, $field_value = '', $attr = 'selected') {
+function select_entry($name, $value, $field_value = '', $attr = 'selected')
+{
 	$attr = ' ' . $attr . '="' . $attr . '"';
 	if (!isset($_POST['form'][$name])) {
 		if (!is_array($field_value) && $field_value == $value) {

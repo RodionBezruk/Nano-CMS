@@ -3,7 +3,8 @@ class breadcrumb
 {
 	protected $steps = array();
 	protected $end = '';
-	function assign($title, $uri = 0) {
+	function assign($title, $uri = 0)
+	{
 		static $i = 0;
 		if (!empty($uri)) {
 			$this->steps[$i]['uri'] = $uri;
@@ -15,7 +16,8 @@ class breadcrumb
 			return;
 		}
 	}
-	function output($mode = 1) {
+	function output($mode = 1)
+	{
 		global $modules, $tpl;
 		if (defined('IN_ACP3')) {
 			if ($mode == 1) {
