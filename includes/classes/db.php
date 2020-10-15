@@ -57,8 +57,6 @@ class db
 	}
 	function query($query, $mode = 2)
 	{
-		$i = 0;
-		$new_result = NULL;
 		switch (CONFIG_DB_TYPE) {
 			case 'mysqli':
 				$result = @mysqli_query($this->con, $query);
@@ -66,10 +64,13 @@ class db
 					if ($mode == 1) {
 						return @mysqli_num_rows($result);
 					} elseif ($mode == 2) {
+						$i = 0;
+						$new_result = NULL;
 						while ($data = @mysqli_fetch_assoc($result)) {
 							$new_result[$i++] = $data;
 						}
 						mysqli_free_result($result);
+						return $new_result;
 					} else {
 						return $result;
 					}
@@ -83,10 +84,13 @@ class db
 					if ($mode == 1) {
 						return @mysql_num_rows($result);
 					} elseif ($mode == 2) {
+						$i = 0;
+						$new_result = NULL;
 						while ($data = @mysql_fetch_assoc($result)) {
 							$new_result[$i++] = $data;
 						}
 						mysql_free_result($result);
+						return $new_result;
 					} else {
 						return $result;
 					}
@@ -94,7 +98,6 @@ class db
 					$this->error();
 				}
 		}
-		return $new_result;
 	}
 	function delete($table, $field, $limit = 0)
 	{
