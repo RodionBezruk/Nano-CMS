@@ -1,37 +1,37 @@
 <?php
 class db
 {
-	public $con = null;
+	public $link = null;
 	function __construct()
 	{
 		$error = 'Beim Verbinden mit der Datenbank ist folgender Fehler aufgetreten:<br />' . "\nFehler %d - %s";
 		switch (CONFIG_DB_TYPE) {
 			case 'mysqli':
-				$db = @mysqli_connect(CONFIG_DB_HOST, CONFIG_DB_USER, CONFIG_DB_PWD, CONFIG_DB_NAME);
+				$link = @mysqli_connect(CONFIG_DB_HOST, CONFIG_DB_USER, CONFIG_DB_PWD, CONFIG_DB_NAME);
 				if (mysqli_connect_errno()) {
 					printf($error, mysqli_connect_errno(), mysqli_connect_error());
 					exit;
 				}
 				break;
 			default:
-				$db = @mysql_connect(CONFIG_DB_HOST, CONFIG_DB_USER, CONFIG_DB_PWD);
-				$db_select = @mysql_select_db(CONFIG_DB_NAME, $db);
-				if (!$db || !$db_select) {
+				$link = @mysql_connect(CONFIG_DB_HOST, CONFIG_DB_USER, CONFIG_DB_PWD);
+				$db_select = @mysql_select_db(CONFIG_DB_NAME, $link);
+				if (!$link || !$db_select) {
 					printf($error, mysql_errno(), mysql_error());
 					exit;
 				}
 		}
-		$this->con = $db;
+		$this->link = $link;
 	}
 	function __destruct()
 	{
-		if ($this->con) {
+		if ($this->link) {
 			switch (CONFIG_DB_TYPE) {
 				case 'mysqli':
-					mysqli_close($this->con);
+					mysqli_close($this->link);
 					break;
 				default:
-					mysql_close($this->con);
+					mysql_close($this->link);
 			}
 		}
 	}
@@ -39,10 +39,10 @@ class db
 	{
 		switch (CONFIG_DB_TYPE) {
 			case 'mysqli':
-				echo 'Fehler ' . mysqli_errno($this->con) . ' - ' . mysqli_error($this->con);
+				echo 'Fehler ' . mysqli_errno($this->link) . ' - ' . mysqli_error($this->link);
 				break;
 			default:
-				echo 'Fehler ' . mysql_errno($this->con) . ' - ' . mysql_error($this->con);
+				echo 'Fehler ' . mysql_errno($this->link) . ' - ' . mysql_error($this->link);
 		}
 	}
 	function escape($value, $mode = 1)
@@ -59,43 +59,41 @@ class db
 	{
 		switch (CONFIG_DB_TYPE) {
 			case 'mysqli':
-				$result = @mysqli_query($this->con, $query);
-				if ($result) {
+				if ($result = @mysqli_query($this->link, $query)) {
 					if ($mode == 1) {
-						return @mysqli_num_rows($result);
+						$new_result = @mysqli_num_rows($result);
 					} elseif ($mode == 2) {
 						$i = 0;
 						$new_result = NULL;
 						while ($data = @mysqli_fetch_assoc($result)) {
 							$new_result[$i++] = $data;
 						}
-						mysqli_free_result($result);
-						return $new_result;
 					} else {
-						return $result;
+						$new_result = $result;
 					}
+					mysqli_free_result($result);
+					return $new_result;
 				} else {
-					$this->error();
+					return $this->error();
 				}
 				break;
 			default:
-				$result = @mysql_query($query, $this->con);
-				if ($result) {
+				if ($result = @mysql_query($query, $this->link)) {
 					if ($mode == 1) {
-						return @mysql_num_rows($result);
+						$new_result = @mysql_num_rows($result);
 					} elseif ($mode == 2) {
 						$i = 0;
 						$new_result = NULL;
 						while ($data = @mysql_fetch_assoc($result)) {
 							$new_result[$i++] = $data;
 						}
-						mysql_free_result($result);
-						return $new_result;
 					} else {
-						return $result;
+						$new_result = $result;
 					}
+					mysql_free_result($result);
+					return $new_result;
 				} else {
-					$this->error();
+					return $this->error();
 				}
 		}
 	}

@@ -22,12 +22,12 @@ if (CONFIG_MAINTENANCE == '1' && defined('IN_ACP3')) {
 	} else {
 		$cookie = $db->escape($_COOKIE['ACP3_AUTH']);
 		$cookie_arr = explode('|', $cookie);
-		$no_access = true;
+		$is_user = false;
 		$user_check = $db->select('id, pwd, access', 'users', 'name=\'' . $cookie_arr[0] . '\'');
 		if (count($user_check) > 0) {
 			$user_check[0]['pwd'] = substr($user_check[0]['pwd'], 0, 40);
 			if ($user_check[0]['pwd'] == $cookie_arr[1]) {
-				$no_access = false;
+				$is_user = true;
 				session_start();
 				if (empty($_SESSION['acp3_id']) || empty($_SESSION['acp3_access'])) {
 					$_SESSION['acp3_id'] = $user_check[0]['id'];
@@ -37,7 +37,7 @@ if (CONFIG_MAINTENANCE == '1' && defined('IN_ACP3')) {
 				$tpl->assign('login_switch', $field);
 			}
 		}
-		if ($no_access) {
+		if (!$is_user) {
 			include 'modules/users/signoff.php';
 		}
 	}
