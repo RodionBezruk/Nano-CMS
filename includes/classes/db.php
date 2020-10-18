@@ -61,18 +61,18 @@ class db
 			case 'mysqli':
 				if ($result = @mysqli_query($this->link, $query)) {
 					if ($mode == 1) {
-						$new_result = @mysqli_num_rows($result);
+						return @mysqli_num_rows($result);
 					} elseif ($mode == 2) {
 						$i = 0;
 						$new_result = NULL;
 						while ($data = @mysqli_fetch_assoc($result)) {
 							$new_result[$i++] = $data;
 						}
+						mysqli_free_result($result);
+						return $new_result;
 					} else {
-						$new_result = $result;
+						return $result;
 					}
-					mysqli_free_result($result);
-					return $new_result;
 				} else {
 					return $this->error();
 				}
@@ -80,18 +80,18 @@ class db
 			default:
 				if ($result = @mysql_query($query, $this->link)) {
 					if ($mode == 1) {
-						$new_result = @mysql_num_rows($result);
+						return @mysql_num_rows($result);
 					} elseif ($mode == 2) {
 						$i = 0;
 						$new_result = NULL;
 						while ($data = @mysql_fetch_assoc($result)) {
 							$new_result[$i++] = $data;
 						}
+						mysql_free_result($result);
+						return $new_result;
 					} else {
-						$new_result = $result;
+						return $result;
 					}
-					mysql_free_result($result);
-					return $new_result;
 				} else {
 					return $this->error();
 				}

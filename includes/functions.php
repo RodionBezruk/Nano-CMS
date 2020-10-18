@@ -85,7 +85,9 @@ function pagination($rows)
 		$gen = '';
 		if (!empty($modules->gen)) {
 			foreach ($modules->gen as $key => $value) {
-				$gen.= '/' . $key . '_' . $value;
+				if ($key != 'pos') {
+					$gen.= '/' . $key . '_' . $value;
+				}
 			}
 		}
 		$tpl->assign('uri', uri($acp . $modules->mod . '/' . $modules->page . $id . $cat . $gen));

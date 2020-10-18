@@ -1,8 +1,6 @@
 <?php
 if (!defined('IN_ADM'))
 	exit;
-if (!$modules->check())
-	redirect('errors/403');
 $action = $modules->action == 'do' ? true : false;
 $tpl->assign('action', $action);
 if ($action) {

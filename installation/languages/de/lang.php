@@ -63,7 +63,7 @@ define('pages_sidebar', 'Sidebar');
 define('php_date_function', 'siehe <a href="http:
 define('php_version', 'PHP-Version');
 define('pls_select', 'Bitte auswählen');
-define('prefix', 'Tabellenprefix');
+define('prefix', 'Tabellenpräfix');
 define('pwd', 'Passwort');
 define('pwd_repeat', 'Passwort wiederholen');
 define('query_failed', 'Abfrage fehlgeschalgen!');

@@ -13,7 +13,7 @@ if ($modules->check(1, 'feeds', 'info')) {
 	$rss['description'] = lang($mode, $mode);
 	$rss['language'] = CONFIG_LANG;
 	$tpl->assign('rss', $rss);
-	if ($modules->check(1, $mode, 'info'))
+	if ($modules->check($mode, ''))
 		include 'modules/feeds/modules/' . $mode . '.php';
 	$tpl->display('feeds/feeds.html');
 }

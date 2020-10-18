@@ -1,6 +1,8 @@
 <?php
 if (!defined('IN_ACP3') && !defined('IN_ADM'))
 	exit;
+if (!$modules->check())
+	redirect('errors/403');
 switch ($modules->action) {
 	case 'create':
 		if (isset($_POST['module']) && isset($_POST['entry_id']) && ereg('[0-9]', $_POST['entry_id'])) {
@@ -18,8 +20,8 @@ switch ($modules->action) {
 				$errors[$i++] = lang('common', 'name_to_short');
 			if (strlen($form['message']) < 3)
 				$errors[$i++] = lang('common', 'message_to_short');
-			if (!$modules->check(1, $db->escape($module, 2), 'info'))
-				$errors[$i++] = lang('common', 'mod_dont_exists');
+			if (!$modules->is_active($db->escape($module, 2)))
+				$errors[$i++] = lang('comments', 'module_doesnt_exist');
 			if (isset($errors)) {
 				$error_msg = combo_box($errors);
 			} else {
@@ -40,8 +42,6 @@ switch ($modules->action) {
 		}
 		break;
 	case 'edit':
-		if (!$modules->check())
-			redirect('errors/403');
 		$form = $_POST['form'];
 		$i = 0;
 		if (empty($form['name']))
@@ -60,8 +60,6 @@ switch ($modules->action) {
 		}
 		break;
 	case 'delete_com_by_mod':
-		if (!$modules->check())
-			redirect('errors/403');
 		if (isset($_POST['entries']) && is_array($_POST['entries']))
 			$entries = $_POST['entries'];
 		elseif (isset($modules->gen['entries']) && eregi('^([a-z0-9_\-|]+)$', $modules->gen['entries']))
@@ -85,8 +83,6 @@ switch ($modules->action) {
 		}
 		break;
 	case 'delete_comments':
-		if (!$modules->check())
-			redirect('errors/403');
 		if (isset($_POST['entries']) && is_array($_POST['entries']))
 			$entries = $_POST['entries'];
 		elseif (isset($modules->gen['entries']) && ereg('^([0-9|]+)$', $modules->gen['entries']))

@@ -1,8 +1,6 @@
 <?php
 if (!defined('IN_ADM'))
 	exit;
-if (!$modules->check())
-	redirect('errors/403');
 $pic = isset($modules->gen['pic']) && ereg('[0-9]', $modules->gen['pic']) ? $modules->gen['pic'] : 1;
 if (isset($_POST['submit'])) {
 	include 'modules/gallery/entry.php';

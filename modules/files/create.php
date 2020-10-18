@@ -1,10 +1,8 @@
 <?php
 if (!defined('IN_ADM'))
 	exit;
-if (!$modules->check())
-	redirect('errors/403');
 if (isset($_POST['submit'])) {
-	include 'modules/dl/entry.php';
+	include 'modules/files/entry.php';
 }
 if (!isset($_POST['submit']) || isset($error_msg)) {
 	$tpl->assign('error_msg', isset($error_msg) ? $error_msg : '');
@@ -18,10 +16,10 @@ if (!isset($_POST['submit']) || isset($error_msg)) {
 	$tpl->assign('end_year', date_dropdown('year', 'end_year', 'end_year'));
 	$tpl->assign('end_hour', date_dropdown('hour', 'end_hour', 'end_hour'));
 	$tpl->assign('end_min', date_dropdown('min', 'end_min', 'end_min'));
-	if (!$cache->check('categories_dl')) {
-		$cache->create('categories_dl', $db->select('id, name, description', 'categories', 'module = \'dl\'', 'name ASC'));
+	if (!$cache->check('categories_files')) {
+		$cache->create('categories_files', $db->select('id, name, description', 'categories', 'module = \'files\'', 'name ASC'));
 	}
-	$categories = $cache->output('categories_dl');
+	$categories = $cache->output('categories_files');
 	$c_categories = count($categories);
 	if ($c_categories > 0) {
 		for ($i = 0; $i < $c_categories; $i++) {
@@ -32,6 +30,6 @@ if (!isset($_POST['submit']) || isset($error_msg)) {
 	}
 	$tpl->assign('checked_external', isset($form['external']) ? ' checked="checked"' : '');
 	$tpl->assign('form', isset($form) ? $form : '');
-	$content = $tpl->fetch('dl/create.html');
+	$content = $tpl->fetch('files/create.html');
 }
 ?>

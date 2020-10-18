@@ -24,7 +24,7 @@ $date = '(start = end AND start <= \'' . date_aligned(2, time()) . '\' OR start 
 $news = $db->select('id, start, headline, text, uri', 'news', $date . $cat_field, 'id DESC', POS, CONFIG_ENTRIES);
 $c_news = count($news);
 if ($c_news > 0) {
-	if ($modules->check(1, 'comments', 'info')) {
+	if ($modules->check('comments', 'functions')) {
 		$comment_check = true;
 		$tpl->assign('comment_check', true);
 		include 'modules/comments/functions.php';

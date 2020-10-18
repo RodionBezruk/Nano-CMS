@@ -1,8 +1,6 @@
 <?php
 if (!defined('IN_ADM'))
 	exit;
-if (!$modules->check())
-	redirect('errors/403');
 if (isset($_POST['entries']) || isset($modules->gen['entries'])) {
 	include 'modules/categories/entry.php';
 } else {

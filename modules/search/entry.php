@@ -1,6 +1,8 @@
 <?php
 if (!defined('IN_ACP3'))
 	exit;
+if (!$modules->check())
+	redirect('errors/403');
 switch ($modules->action) {
 	case 'search':
 		$form = $_POST['form'];
@@ -19,7 +21,7 @@ switch ($modules->action) {
 			$form['sort'] = strtoupper($form['sort']);
 			$results_mods = array();
 			foreach ($form['mods'] as $search_mod) {
-				if ($modules->check(1, $search_mod, 'info') && file_exists('modules/search/modules/' . $search_mod . '.php')) {
+				if ($modules->is_active($search_mod) && is_file('modules/search/modules/' . $search_mod . '.php')) {
 					include 'modules/search/modules/' . $search_mod . '.php';
 				}
 			}

@@ -12,7 +12,7 @@ function comments_form($url = 0, $module = 0, $entry_id = 0)
 	$module = !empty($module) ? $module : $modules->mod;
 	$entry_id = !empty($entry_id) ? $entry_id : $modules->id;
 	$tpl->assign('com_form', array('url' => $url, 'module' => $module, 'entry_id' => $entry_id));
-	if ($modules->check(1, 'emoticons', 'info')) {
+	if ($modules->check('emoticons', 'functions')) {
 		include_once 'modules/emoticons/functions.php';
 		$tpl->assign('emoticons', emoticons_list());
 	}
@@ -26,7 +26,7 @@ function comments_list($module = 0, $entry_id = 0)
 	$comments = $db->select('name, date, message', 'comments', 'module = \'' . $module . '\' AND entry_id = \'' . $entry_id . '\'', 'date ASC', POS, CONFIG_ENTRIES);
 	$c_comments = count($comments);
 	$emoticons = false;
-	if ($modules->check(1, 'emoticons', 'info')) {
+	if ($modules->check('emoticons', 'functions')) {
 		include_once 'modules/emoticons/functions.php';
 		$emoticons = true;
 	}

@@ -1,8 +1,6 @@
 <?php
 if (!defined('IN_ADM'))
 	exit;
-if (!$modules->check())
-	redirect('errors/403');
 $languages = array();
 $directories = scandir('languages');
 $count_dir = count($directories);

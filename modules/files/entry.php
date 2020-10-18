@@ -17,20 +17,20 @@ switch ($modules->action) {
 		if (!$validate->date($form))
 			$errors[$i++] = lang('common', 'select_date');
 		if (strlen($form['link_title']) < 3)
-			$errors[$i++] = lang('dl', 'type_in_link_title');
+			$errors[$i++] = lang('files', 'type_in_link_title');
 		if (isset($_POST['external']) && empty($file))
-			$errors[$i++] = lang('dl', 'type_in_external_resource');
+			$errors[$i++] = lang('files', 'type_in_external_resource');
 		if (!isset($_POST['external']) && (empty($file['tmp_name']) || $file['size'] == '0'))
-			$errors[$i++] = lang('dl', 'select_internal_resource');
+			$errors[$i++] = lang('files', 'select_internal_resource');
 		if (strlen($form['text']) < 3)
-			$errors[$i++] = lang('dl', 'description_to_short');
+			$errors[$i++] = lang('files', 'description_to_short');
 		if (!ereg('[0-9]', $form['cat']) || ereg('[0-9]', $form['cat']) && $db->select('id', 'categories', 'id = \'' . $form['cat'] . '\'', 0, 0, 0, 1) != '1')
-			$errors[$i++] = lang('dl', 'select_category');
+			$errors[$i++] = lang('files', 'select_category');
 		if (isset($errors)) {
 			$error_msg = combo_box($errors);
 		} else {
 			if (is_array($file)) {
-				$result = move_file($file['tmp_name'], $file['name'], 'dl');
+				$result = move_file($file['tmp_name'], $file['name'], 'files');
 				$new_file = $result['name'];
 				$filesize = $result['size'];
 			} elseif (is_string($file)) {
@@ -49,8 +49,8 @@ switch ($modules->action) {
 				'link_title' => $db->escape($form['link_title']),
 				'text' => $db->escape($form['text'], 2),
 			);
-			$bool = $db->insert('dl', $insert_values);
-			$content = combo_box($bool ? lang('dl', 'create_success') : lang('dl', 'create_error'), uri('acp/dl'));
+			$bool = $db->insert('files', $insert_values);
+			$content = combo_box($bool ? lang('files', 'create_success') : lang('files', 'create_error'), uri('acp/files'));
 		}
 		break;
 	case 'edit':
@@ -66,22 +66,22 @@ switch ($modules->action) {
 		if (!$validate->date($form))
 			$errors[$i++] = lang('common', 'select_date');
 		if (strlen($form['link_title']) < 3)
-			$errors[$i++] = lang('dl', 'type_in_link_title');
+			$errors[$i++] = lang('files', 'type_in_link_title');
 		if (isset($form['external']) && empty($file))
-			$errors[$i++] = lang('dl', 'type_in_external_resource');
+			$errors[$i++] = lang('files', 'type_in_external_resource');
 		if (!isset($form['external']) && isset($file) && is_array($file) && (empty($file['tmp_name']) || $file['size'] == '0'))
-			$errors[$i++] = lang('dl', 'select_internal_resource');
+			$errors[$i++] = lang('files', 'select_internal_resource');
 		if (strlen($form['text']) < 3)
-			$errors[$i++] = lang('dl', 'description_to_short');
+			$errors[$i++] = lang('files', 'description_to_short');
 		if (!ereg('[0-9]', $form['cat']) || ereg('[0-9]', $form['cat']) && $db->select('id', 'categories', 'id = \'' . $form['cat'] . '\'', 0, 0, 0, 1) != '1')
-			$errors[$i++] = lang('dl', 'select_category');
+			$errors[$i++] = lang('files', 'select_category');
 		if (isset($errors)) {
 			$error_msg = combo_box($errors);
 		} else {
 			$new_file_sql = null;
 			if (isset($file)) {
 				if (is_array($file)) {
-					$result = move_file($file['tmp_name'], $file['name'], 'dl');
+					$result = move_file($file['tmp_name'], $file['name'], 'files');
 					$new_file = $result['name'];
 					$filesize = $result['size'];
 				} elseif (is_string($file)) {
@@ -105,9 +105,9 @@ switch ($modules->action) {
 			if (is_array($new_file_sql)) {
 				$update_values = array_merge($update_values, $new_file_sql);
 			}
-			$bool = $db->update('dl', $update_values, 'id = \'' . $modules->id . '\'');
-			$cache->create('dl_details_id_' . $modules->id, $db->select('d.id, d.start, d.end, d.file, d.size, d.link_title, d.text, c.id AS cat_id, c.name AS cat_name', 'dl AS d, ' . CONFIG_DB_PRE . 'categories AS c', 'd.id = \'' . $modules->id . '\' AND d.cat = c.id'));
-			$content = combo_box($bool ? lang('dl', 'edit_success') : lang('dl', 'edit_error'), uri('acp/dl'));
+			$bool = $db->update('files', $update_values, 'id = \'' . $modules->id . '\'');
+			$cache->create('files_details_id_' . $modules->id, $db->select('f.id, f.start, f.end, f.file, f.size, f.link_title, f.text, c.id AS cat_id, c.name AS cat_name', 'files AS f, ' . CONFIG_DB_PRE . 'categories AS c', 'f.id = \'' . $modules->id . '\' AND f.cat = c.id'));
+			$content = combo_box($bool ? lang('files', 'edit_success') : lang('files', 'edit_error'), uri('acp/files'));
 		}
 		break;
 	case 'delete':
@@ -120,21 +120,21 @@ switch ($modules->action) {
 			foreach ($entries as $entry) {
 				$marked_entries.= $entry . '|';
 			}
-			$content = combo_box(lang('dl', 'confirm_delete'), uri('acp/dl/adm_list/action_delete/entries_' . $marked_entries), uri('acp/dl'));
+			$content = combo_box(lang('files', 'confirm_delete'), uri('acp/files/adm_list/action_delete/entries_' . $marked_entries), uri('acp/files'));
 		} elseif (ereg('^([0-9|]+)$', $entries) && isset($modules->gen['confirmed'])) {
 			$marked_entries = explode('|', $entries);
 			$bool = 0;
 			foreach ($marked_entries as $entry) {
-				if (!empty($entry) && ereg('[0-9]', $entry) && $db->select('id', 'dl', 'id = \'' . $entry . '\'', 0, 0, 0, 1) == '1') {
-					$file = $db->select('file', 'dl', 'id = \'' . $entry . '\'');
-					if (is_file('files/dl/' . $file[0]['file'])) {
-						unlink('files/dl/' . $file[0]['file']);
+				if (!empty($entry) && ereg('[0-9]', $entry) && $db->select('id', 'files', 'id = \'' . $entry . '\'', 0, 0, 0, 1) == '1') {
+					$file = $db->select('file', 'files', 'id = \'' . $entry . '\'');
+					if (is_file('files/files/' . $file[0]['file'])) {
+						unlink('files/files/' . $file[0]['file']);
 					}
-					$bool = $db->delete('dl', 'id = \'' . $entry . '\'');
-					$cache->delete('dl_details_id_' . $entry);
+					$bool = $db->delete('files', 'id = \'' . $entry . '\'');
+					$cache->delete('files_details_id_' . $entry);
 				}
 			}
-			$content = combo_box($bool ? lang('dl', 'delete_success') : lang('dl', 'delete_error'), uri('acp/dl'));
+			$content = combo_box($bool ? lang('files', 'delete_success') : lang('files', 'delete_error'), uri('acp/files'));
 		} else {
 			redirect('errors/404');
 		}

@@ -1,6 +1,8 @@
 <?php
 if (!defined('IN_ACP3') && !defined('IN_ADM'))
 	exit;
+if (!$modules->check())
+	redirect('errors/403');
 switch ($modules->action) {
 	case 'contact':
 		$form = $_POST['form'];
@@ -22,8 +24,6 @@ switch ($modules->action) {
 		}
 		break;
 	case 'edit':
-		if (!$modules->check())
-			redirect('errors/403');
 		$form = $_POST['form'];
 		$i = 0;
 		if (!empty($form['mail']) && !$validate->email($form['mail']))

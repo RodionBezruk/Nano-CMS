@@ -1,8 +1,6 @@
 <?php
 if (!defined('IN_ADM'))
 	exit;
-if (!$modules->check())
-	redirect('errors/403');
 if (isset($_POST['submit'])) {
 	include 'modules/users/entry.php';
 }

@@ -23,7 +23,7 @@ if (!empty($modules->id) && $db->select('id', 'news', 'id = \'' . $modules->id .
 		$news[0]['uri'] = $db->escape($news[0]['uri'], 3);
 		$news[0]['target'] = $news[0]['target'] == '2' ? ' onclick="window.open(this.href); return false"' : '';
 		$tpl->assign('news', $news[0]);
-		if ($modules->check(1, 'comments', 'info')) {
+		if ($modules->check('comments', 'functions')) {
 			include_once 'modules/comments/functions.php';
 			$tpl->assign('comments_list', comments_list());
 			$tpl->assign('comments_form', comments_form());
