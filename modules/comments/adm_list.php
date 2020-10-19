@@ -21,7 +21,7 @@ if (isset($_POST['entries']) || isset($modules->gen['entries'])) {
 		$comments = $db->select('id, ip, date, name, message', 'comments', 'module = \'' . $module . '\'', 'date DESC', POS, CONFIG_ENTRIES);
 		$c_comments = count($comments);
 		$emoticons = false;
-		if ($modules->check(1, 'emoticons', 'info')) {
+		if ($modules->check('emoticons', 'functions')) {
 			include_once 'modules/emoticons/functions.php';
 			$emoticons = true;
 		}

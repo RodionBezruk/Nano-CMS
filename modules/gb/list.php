@@ -6,7 +6,7 @@ $c_gb = count($gb);
 if ($c_gb > 0) {
 	$tpl->assign('pagination', pagination($db->select('id', 'gb', 0, 0, 0, 0, 1)));
 	$emoticons = false;
-	if ($modules->check(1, 'emoticons', 'info')) {
+	if ($modules->check('emoticons', 'functions')) {
 		include_once 'modules/emoticons/functions.php';
 		$emoticons = true;
 	}
