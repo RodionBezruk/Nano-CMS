@@ -76,7 +76,7 @@ class modules
 					}
 				}
 				foreach ($xml->item as $item) {
-					if ((string) $item->file == 'entry') {
+					if ((string) $item->file == 'entry' && $page == 'entry') {
 						foreach ($item->action as $action) {
 							if ((string) $action->name == $this->action && (string) $action->level != '0' && isset($access_level[$module]) && (string) $action->level <= $access_level[$module]) {
 								return true;
