@@ -52,9 +52,12 @@ class modules
 		$active_modules = array();
 		foreach ($modules as $module) {
 			if ($this->is_active($module)) {
-				$active_modules[] = $module;
+				$mod_info = array();
+				include 'modules/' . $module . '/info.php';
+				$active_modules[$mod_info['name']] = $module;
 			}
 		}
+		ksort($active_modules);
 		return $active_modules;
 	}
 	function check($module = 0, $page = 0) {
