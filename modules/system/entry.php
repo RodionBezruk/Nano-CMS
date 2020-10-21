@@ -5,11 +5,15 @@ if (!$modules->check(0, 'entry'))
 	redirect('errors/403');
 switch ($modules->action) {
 	case 'modactivation':
-		if (isset($modules->gen['dir'])) {
+		if (isset($modules->gen['dir']) && is_file('modules/' . $modules->gen['dir'] . '/access.xml')) {
 			include 'modules/' . $modules->gen['dir'] . '/info.php';
 			if (isset($mod_info['protected']) && $mod_info['protected']) {
 				$text = lang('system', 'mod_deactivate_forbidden');
 			} else {
+				$path = 'modules/' . $modules->gen['dir'] . '/access.xml';
+				$xml = simplexml_load_file($path);
+				$xml->active[0] = '1';
+				$bool = $xml->asXML($path);
 				$text = $bool ? lang('system', 'mod_activate_success') : lang('system', 'mod_activate_error');
 			}
 		} else {
@@ -23,6 +27,10 @@ switch ($modules->action) {
 			if (isset($mod_info['protected']) && $mod_info['protected']) {
 				$text = lang('system', 'mod_deactivate_forbidden');
 			} else {
+				$path = 'modules/' . $modules->gen['dir'] . '/access.xml';
+				$xml = simplexml_load_file($path);
+				$xml->active[0] = '0';
+				$bool = $xml->asXML($path);
 				$text = $bool ? lang('system', 'mod_deactivate_success') : lang('system', 'mod_deactivate_error');
 			}
 		} else {
