@@ -13,7 +13,7 @@ if (!defined('INSTALLED')) {
 require '../../includes/classes/db.php';
 $db = new db;
 $pic = $db->select('file', 'galpics', 'id = \'' . $_GET['id'] . '\'');
-$pic = '../../files/gallery/' . $pic[0]['file'];
+$pic = '../../uploads/gallery/' . $pic[0]['file'];
 if (file_exists($pic)) {
 	$pic_info = getimagesize($pic);
 	$width = $pic_info[0];
