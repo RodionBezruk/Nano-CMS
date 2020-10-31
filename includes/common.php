@@ -6,20 +6,9 @@ if (!defined('INSTALLED')) {
 	header('Location: installation/');
 	exit;
 }
-$class_dir = 'includes/classes/';
-$GLOBALS['classes'] = array(
-	'breadcrumb' => $class_dir . 'breadcrumb.php',
-	'cache' => $class_dir . 'cache.php',
-	'config' => $class_dir . 'config.php',
-	'db' => $class_dir . 'db.php',
-	'modules' => $class_dir . 'modules.php',
-	'validate' => $class_dir . 'validate.php',
-);
 function __autoload($className)
 {
-	if (isset($GLOBALS['classes'][$className])) {
-		require_once $GLOBALS['classes'][$className];
-	}
+	require_once 'includes/classes/' . $className . '.php';
 }
 $db = new db;
 $modules = new modules;
