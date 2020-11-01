@@ -32,11 +32,11 @@ if (!isset($_POST['submit']) || isset($error_msg)) {
 	$maintenance[1]['checked'] = select_entry('maintenance', '0', CONFIG_MAINTENANCE, 'checked');
 	$tpl->assign('maintenance', $maintenance);
 	$db_type[0]['value'] = 'mysql';
-	$db_type[0]['selected'] = select_entry('type', 'mysql', CONFIG_DB_TYPE);
+	$db_type[0]['selected'] = select_entry('db_type', 'mysql', CONFIG_DB_TYPE);
 	$db_type[0]['lang'] = 'MySQL';
 	if (extension_loaded('mysqli'))	{
 		$db_type[1]['value'] = 'mysqli';
-		$db_type[1]['selected'] = select_entry('type', 'mysqli', CONFIG_DB_TYPE);
+		$db_type[1]['selected'] = select_entry('db_type', 'mysqli', CONFIG_DB_TYPE);
 		$db_type[1]['lang'] = 'MySQLi';
 	}
 	$tpl->assign('db_type', $db_type);
