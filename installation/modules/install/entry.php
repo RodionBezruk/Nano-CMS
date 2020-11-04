@@ -58,7 +58,7 @@ if (isset($errors)) {
 	$form['meta_description'] = mask($form['meta_description']);
 	$form['meta_keywords'] = '';
 	$form['title'] = mask($form['title']);
-	$form['version'] = '4.0b7';
+	$form['version'] = '4.0b8';
 	ksort($form);
 	write_config('contact', array('mail' => $form['mail'], 'address' => '', 'telephone' => '', 'fax' => '', 'disclaimer' => lang('disclaimer'), 'miscellaneous' => ''));
 	write_config('newsletter', array('mail' => $form['mail'], 'mailsig' => lang('sincerely') . "\n\n" . lang('newsletter_mailsig')));
@@ -89,7 +89,7 @@ if (isset($errors)) {
 		1 => 'INSERT INTO `' . CONFIG_DB_PRE . 'users` VALUES (1, \'' . mask($form['user_name']) . '\', \'' . sha1($salt . sha1($form['user_pwd'])) . ':' . $salt . '\', 1, \'' . $form['mail'] . '\');',
 		2 => 'INSERT INTO `' . CONFIG_DB_PRE . 'news` VALUES (\'\', \'' . gmdate('U') . '\', \'' . gmdate('U') . '\', \'' . lang('news_headline') . '\', \'' . lang('news_text') . '\', \'1\', \'\', \'\', \'\');',
 		3 => 'INSERT INTO `' . CONFIG_DB_PRE . 'pages` VALUES (\'\', \'' . gmdate('U') . '\', \'' . gmdate('U') . '\', 2, 0, 1, 0, \'' . lang('pages_news') . '\', \'news/list\', 1, \'\'), (\'\', \'' . gmdate('U') . '\', \'' . gmdate('U') . '\', 2, 0, 1, 1, \'' . lang('pages_dl') . '\', \'dl/list\', 1, \'\'), (\'\', \'' . gmdate('U') . '\', \'' . gmdate('U') . '\', 2, 0, 1, 2, \'' . lang('pages_gallery') . '\', \'gallery/list\', 1, \'\'), (\'\', \'' . gmdate('U') . '\', \'' . gmdate('U') . '\', 2, 0, 1, 3, \'' . lang('pages_gb') . '\', \'gb/list\', 1, \'\'), (\'\', \'' . gmdate('U') . '\', \'' . gmdate('U') . '\', 2, 0, 1, 4, \'' . lang('pages_polls') . '\', \'polls/list\', 1, \'\'), (\'\', \'' . gmdate('U') . '\', \'' . gmdate('U') . '\', 2, 0, 1, 5, \'' . lang('pages_search') . '\', \'search/list\', 1, \'\'), (\'\', \'' . gmdate('U') . '\', \'' . gmdate('U') . '\', 2, 0, 2, 0, \'' . lang('pages_contact') . '\', \'contact/contact\', 1, \'\'), (\'\', \'' . gmdate('U') . '\', \'' . gmdate('U') . '\', 2, 0, 2, 1, \'' . lang('pages_imprint') . '\', \'contact/imprint\', 1, \'\');',
-		4 => 'INSERT INTO `' . CONFIG_DB_PRE . 'pages_blocks` (`id`, `index_name`, `title`) VALUES (1, \'main\', \'' . lang('pages_main') . '\'),(2, \'sidebar\', \'' . lang('pages_sidebar') . '\');',
+		4 => 'INSERT INTO `' . CONFIG_DB_PRE . 'pages_blocks` (`id`, `index_name`, `title`) VALUES (1, \'main\', \'' . lang('pages_main') . '\'), (2, \'sidebar\', \'' . lang('pages_sidebar') . '\');',
 	);
 	$new_arr = array_merge($sql_file_arr, $other_arr);
 	$data = NULL;
