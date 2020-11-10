@@ -51,7 +51,7 @@ define('offline_message', 'Wegen kurzfristigen Wartungsarbeiten ist diese Websit
 define('on', 'an');
 define('overview', 'Übersicht');
 define('pages_contact', 'Kontakt');
-define('pages_dl', 'Downloads');
+define('pages_files', 'Downloads');
 define('pages_gallery', 'Fotogalerien');
 define('pages_gb', 'Gästebuch');
 define('pages_imprint', 'Impressum');

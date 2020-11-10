@@ -73,8 +73,6 @@ class db
 					} else {
 						return $result;
 					}
-				} else {
-					return $this->error();
 				}
 				break;
 			default:
@@ -92,10 +90,9 @@ class db
 					} else {
 						return $result;
 					}
-				} else {
-					return $this->error();
 				}
 		}
+		return $this->error();
 	}
 	function delete($table, $field, $limit = 0)
 	{
