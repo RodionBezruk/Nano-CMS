@@ -6,15 +6,14 @@ if (!$modules->check(0, 'entry'))
 switch ($modules->action) {
 	case 'create':
 		$form = $_POST['form'];
-		$i = 0;
 		if (strlen($form['name']) < 3)
-			$errors[$i++] = lang('categories', 'name_to_short');
+			$errors[] = lang('categories', 'name_to_short');
 		if (strlen($form['description']) < 3)
-			$errors[$i++] = lang('categories', 'description_to_short');
+			$errors[] = lang('categories', 'description_to_short');
 		if (empty($form['module']))
-			$errors[$i++] = lang('categories', 'select_module');
+			$errors[] = lang('categories', 'select_module');
 		if (strlen($form['name']) > 3 && !empty($form['module']) && $db->select('id', 'categories', 'name = \'' . $db->escape($form['name']) . '\' AND module = \'' . $db->escape($form['module'], 2) . '\'', 0, 0, 0, 1) > 0)
-			$errors[$i++] = lang('categories', 'category_already_exists');
+			$errors[] = lang('categories', 'category_already_exists');
 		if (isset($errors)) {
 			$error_msg = combo_box($errors);
 		} else {
@@ -31,15 +30,14 @@ switch ($modules->action) {
 		break;
 	case 'edit':
 		$form = $_POST['form'];
-		$i = 0;
 		if (strlen($form['name']) < 3)
-			$errors[$i++] = lang('categories', 'name_to_short');
+			$errors[] = lang('categories', 'name_to_short');
 		if (strlen($form['description']) < 3)
-			$errors[$i++] = lang('categories', 'description_to_short');
+			$errors[] = lang('categories', 'description_to_short');
 		if (empty($form['module']))
-			$errors[$i++] = lang('categories', 'select_module');
+			$errors[] = lang('categories', 'select_module');
 		if (strlen($form['name']) > 3 && !empty($form['module']) && $db->select('id', 'categories', 'id != \'' . $modules->id . '\' AND name = \'' . $db->escape($form['name']) . '\' AND module = \'' . $db->escape($form['module'], 2) . '\'', 0, 0, 0, 1) > 0)
-			$errors[$i++] = lang('categories', 'category_already_exists');
+			$errors[] = lang('categories', 'category_already_exists');
 		if (isset($errors)) {
 			$error_msg = combo_box($errors);
 		} else {

@@ -11,13 +11,12 @@ switch ($modules->action) {
 			$file['name'] = $_FILES['picture']['name'];
 			$file['size'] = $_FILES['picture']['size'];
 		}
-		$i = 0;
 		if (empty($form['code']))
-			$errors[$i++] = lang('emoticons', 'type_in_code');
+			$errors[] = lang('emoticons', 'type_in_code');
 		if (empty($form['description']))
-			$errors[$i++] = lang('emoticons', 'type_in_description');
+			$errors[] = lang('emoticons', 'type_in_description');
 		if (!isset($file) || $file['size'] == '0' || !$validate->is_picture($file['tmp_name']))
-			$errors[$i++] = lang('emoticons', 'select_picture');
+			$errors[] = lang('emoticons', 'select_picture');
 		if (isset($errors)) {
 			$error_msg = combo_box($errors);
 		} else {
@@ -40,13 +39,12 @@ switch ($modules->action) {
 			$file['name'] = $_FILES['picture']['name'];
 			$file['size'] = $_FILES['picture']['size'];
 		}
-		$i = 0;
 		if (empty($form['code']))
-			$errors[$i++] = lang('emoticons', 'type_in_code');
+			$errors[] = lang('emoticons', 'type_in_code');
 		if (empty($form['description']))
-			$errors[$i++] = lang('emoticons', 'type_in_description');
+			$errors[] = lang('emoticons', 'type_in_description');
 		if (isset($file) && ($file['size'] == '0' || !$validate->is_picture($file['tmp_name'])))
-			$errors[$i++] = lang('emoticons', 'select_picture');
+			$errors[] = lang('emoticons', 'select_picture');
 		if (isset($errors)) {
 			$error_msg = combo_box($errors);
 		} else {

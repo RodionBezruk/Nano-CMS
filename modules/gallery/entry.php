@@ -3,14 +3,13 @@ if (!defined('IN_ADM'))
 	exit;
 if (!$modules->check(0, 'entry'))
 	redirect('errors/403');
-	switch ($modules->action) {
+switch ($modules->action) {
 	case 'create':
 		$form = $_POST['form'];
-		$i = 0;
 		if (!$validate->date($form))
-			$errors[$i++] = lang('common', 'select_date');
+			$errors[] = lang('common', 'select_date');
 		if (strlen($form['name']) < 3)
-			$errors[$i++] = lang('gallery', 'type_in_gallery_name');
+			$errors[] = lang('gallery', 'type_in_gallery_name');
 		if (isset($errors)) {
 			$error_msg = combo_box($errors);
 		} else {
@@ -28,11 +27,10 @@ if (!$modules->check(0, 'entry'))
 		break;
 	case 'edit_gallery':
 		$form = $_POST['form'];
-		$i = 0;
 		if (!$validate->date($form))
-			$errors[$i++] = lang('common', 'select_date');
+			$errors[] = lang('common', 'select_date');
 		if (strlen($form['name']) < 3)
-			$errors[$i++] = lang('gallery', 'type_in_gallery_name');
+			$errors[] = lang('gallery', 'type_in_gallery_name');
 		if (isset($errors)) {
 			$error_msg = combo_box($errors);
 		} else {
@@ -80,15 +78,14 @@ if (!$modules->check(0, 'entry'))
 		$file['name'] = $_FILES['file']['name'];
 		$file['size'] = $_FILES['file']['size'];
 		$form = $_POST['form'];
-		$i = 0;
 		if (!ereg('[0-9]', $form['gallery']) || $db->select('id', 'gallery', 'id = \'' . $form['gallery'] . '\'', 0, 0, 0, 1) != '1')
-			$errors[$i++] = lang('gallery', 'no_gallery_selected');
+			$errors[] = lang('gallery', 'no_gallery_selected');
 		if (!ereg('[0-9]', $form['pic']))
-			$errors[$i++] = lang('gallery', 'type_in_picture_number');
+			$errors[] = lang('gallery', 'type_in_picture_number');
 		if (empty($file['tmp_name']) || $file['size'] == '0')
-			$errors[$i++] = lang('gallery', 'no_picture_selected');
+			$errors[] = lang('gallery', 'no_picture_selected');
 		if (!empty($file['tmp_name']) && $file['size'] > '0' && !$validate->is_picture($file['tmp_name']))
-			$errors[$i++] = lang('gallery', 'only_png_jpg_gif_allowed');
+			$errors[] = lang('gallery', 'only_png_jpg_gif_allowed');
 		if (isset($errors)) {
 			$error_msg = combo_box($errors);
 		} else {
@@ -112,13 +109,12 @@ if (!$modules->check(0, 'entry'))
 			$file['size'] = $_FILES['file']['size'];
 		}
 		$form = $_POST['form'];
-		$i = 0;
 		if (!ereg('[0-9]', $form['gallery']) || $db->select('id', 'gallery', 'id = \'' . $form['gallery'] . '\'', 0, 0, 0, 1) != '1')
-			$errors[$i++] = lang('gallery', 'no_gallery_selected');
+			$errors[] = lang('gallery', 'no_gallery_selected');
 		if (!ereg('[0-9]', $form['pic']))
-			$errors[$i++] = lang('gallery', 'type_in_picture_number');
+			$errors[] = lang('gallery', 'type_in_picture_number');
 		if (isset($file) && is_array($file) && !$validate->is_picture($file['tmp_name']))
-			$errors[$i++] = lang('gallery', 'only_png_jpg_gif_allowed');
+			$errors[] = lang('gallery', 'only_png_jpg_gif_allowed');
 		if (isset($errors)) {
 			$error_msg = combo_box($errors);
 		} else {

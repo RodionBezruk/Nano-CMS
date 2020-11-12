@@ -6,17 +6,18 @@ if (!$modules->check(0, 'entry'))
 switch ($modules->action) {
 	case 'create':
 		$form = $_POST['form'];
-		$i = 0;
 		if (empty($form['name']))
-			$errors[$i++] = lang('common', 'name_to_short');
+			$errors[] = lang('common', 'name_to_short');
 		if (!empty($form['name']) && $db->select('id', 'users', 'name = \'' . $db->escape($form['name']) . '\'', 0, 0, 0, 1) == '1')
-			$errors[$i++] = lang('users', 'user_already_exists');
+			$errors[] = lang('users', 'user_already_exists');
 		if (!$validate->email($form['mail']))
-			$errors[$i++] = lang('common', 'wrong_email_format');
+			$errors[] = lang('common', 'wrong_email_format');
+		if ($validate->email($form['mail']) && $db->select('id', 'users', 'mail =\'' . $form['mail'] . '\'', 0, 0, 0, 1) > 0)
+			$errors[] = lang('common', 'user_email_already_exists');
 		if (!ereg('[0-9]', $form['access']))
-			$errors[$i++] = lang('users', 'select_access_level');
+			$errors[] = lang('users', 'select_access_level');
 		if (empty($form['pwd']) || empty($form['pwd_repeat']) || $form['pwd'] != $form['pwd_repeat'])
-			$errors[$i++] = lang('users', 'type_in_pwd');
+			$errors[] = lang('users', 'type_in_pwd');
 		if (isset($errors)) {
 			$error_msg = combo_box($errors);
 		} else {
@@ -34,25 +35,26 @@ switch ($modules->action) {
 		break;
 	case 'edit':
 		$form = $_POST['form'];
-		$i = 0;
 		if (empty($form['name']))
-			$errors[$i++] = lang('common', 'name_to_short');
+			$errors[] = lang('common', 'name_to_short');
 		if (!empty($form['name']) && $db->select('id', 'users', 'id != \'' . $modules->id . '\' AND name = \'' . $db->escape($form['name']) . '\'', 0, 0, 0, 1) == '1')
-			$errors[$i++] = lang('users', 'user_already_exists');
+			$errors[] = lang('users', 'user_already_exists');
 		if (!$validate->email($form['mail']))
-			$errors[$i++] = lang('common', 'wrong_email_format');
+			$errors[] = lang('common', 'wrong_email_format');
+		if ($validate->email($form['mail']) && $db->select('id', 'users', 'id != \'' . $modules->id . '\' AND mail =\'' . $form['mail'] . '\'', 0, 0, 0, 1) > 0)
+			$errors[] = lang('common', 'user_email_already_exists');
 		if (!ereg('[0-9]', $form['access']))
-			$errors[$i++] = lang('users', 'select_access_level');
+			$errors[] = lang('users', 'select_access_level');
 		if (!empty($form['new_pwd']) && !empty($form['new_pwd_repeat']) && $form['new_pwd'] != $form['new_pwd_repeat'])
-			$errors[$i++] = lang('users', 'type_in_pwd');
+			$errors[] = lang('users', 'type_in_pwd');
 		if (isset($errors)) {
 			$error_msg = combo_box($errors);
 		} else {
 			$new_pwd_sql = null;
 			if (!empty($form['new_pwd']) && !empty($form['new_pwd_repeat'])) {
 				$salt = salt(12);
-				$pwd = sha1($salt . sha1($form['new_pwd']));
-				$new_pwd = array('pwd' => $pwd . ':' . $salt,);
+				$new_pwd = sha1($salt . sha1($form['new_pwd']));
+				$new_pwd_sql = array('pwd' => $pwd . ':' . $salt);
 			}
 			$update_values = array(
 				'name' => $db->escape($form['name']),
@@ -65,7 +67,7 @@ switch ($modules->action) {
 			$bool = $db->update('users', $update_values, 'id = \'' . $modules->id . '\'');
 			if ($modules->id == $_SESSION['acp3_id']) {
 				$cookie_arr = explode('|', $_COOKIE['ACP3_AUTH']);
-				setcookie('ACP3_AUTH', $form['name'] . '|' . (isset($pwd) ? $pwd : $cookie_arr[1]), time() + 3600, '/');
+				setcookie('ACP3_AUTH', $form['name'] . '|' . (isset($new_pwd) ? $new_pwd : $cookie_arr[1]), time() + 3600, '/');
 				$_SESSION['acp3_access'] = $form['access'];
 			}
 			$content = combo_box($bool ? lang('users', 'edit_success') : lang('users', 'edit_error'), uri('acp/users'));
@@ -118,15 +120,14 @@ switch ($modules->action) {
 		break;
 	case 'forgot_pwd':
 		$form = $_POST['form'];
-		$i = 0;
 		if (empty($form['name']) && empty($form['mail']))
-			$errors[$i++] = lang('users', 'type_in_name_and_email');
+			$errors[] = lang('users', 'type_in_name_and_email');
 		if (!empty($form['name']) && $db->select('id', 'users', 'name = \'' . $db->escape($form['name']) . '\'', 0, 0, 0, 1) == '0')
-			$errors[$i++] = lang('users', 'user_not_exists');
+			$errors[] = lang('users', 'user_not_exists');
 		if (!empty($form['mail']) && !$validate->email($form['mail']))
-			$errors[$i++] = lang('common', 'wrong_email_format');
+			$errors[] = lang('common', 'wrong_email_format');
 		if ($validate->email($form['mail']) && $db->select('id', 'users', 'mail = \'' . $form['mail'] . '\'', 0, 0, 0, 1) == '0')
-			$errors[$i++] = lang('users', 'user_not_exists');
+			$errors[] = lang('users', 'user_not_exists');
 		if (isset($errors)) {
 			$error_msg = combo_box($errors);
 		} else {
@@ -142,17 +143,16 @@ switch ($modules->action) {
 		break;
 	case 'register':
 		$form = $_POST['form'];
-		$i = 0;
 		if (empty($form['name']))
-			$errors[$i++] = lang('common', 'name_to_short');
+			$errors[] = lang('common', 'name_to_short');
 		if (!empty($form['name']) && $db->select('id', 'users', 'name = \'' . $db->escape($form['name']) . '\'', 0, 0, 0, 1) == '1')
-			$errors[$i++] = lang('users', 'user_already_exists');
+			$errors[] = lang('users', 'user_already_exists');
 		if (!$validate->email($form['mail']))
-			$errors[$i++] = lang('common', 'wrong_email_format');
+			$errors[] = lang('common', 'wrong_email_format');
 		if ($validate->email($form['mail']) && $db->select('id', 'users', 'mail =\'' . $form['mail'] . '\'', 0, 0, 0, 1) > 0)
-			$errors[$i++] = lang('common', 'user_email_already_exists');
+			$errors[] = lang('common', 'user_email_already_exists');
 		if (empty($form['pwd']) || empty($form['pwd_repeat']) || $form['pwd'] != $form['pwd_repeat'])
-			$errors[$i++] = lang('users', 'type_in_pwd');
+			$errors[] = lang('users', 'type_in_pwd');
 		if (isset($errors)) {
 			$error_msg = combo_box($errors);
 		} else {
