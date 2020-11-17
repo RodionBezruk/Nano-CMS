@@ -131,14 +131,21 @@ switch ($modules->action) {
 		if (isset($errors)) {
 			$error_msg = combo_box($errors);
 		} else {
-			$field = !empty($form['mail']) ? 'mail = \'' . $form['mail'] . '\'' : 'name = \'' . $db->escape($form['name']) . '\'';
 			$new_password = salt(8);
 			$salt = salt(12);
-			$update_values = array(
-				'pwd' => sha1($salt . sha1($new_password)) . ':' . $salt,
-			);
-			$bool = $db->update('users', $update_values, $field);
-			$content = combo_box($bool ? lang('users', 'forgot_pwd_success') : lang('users', 'forgot_pwd_error'), ROOT_DIR);
+			$where_stmt = !empty($form['mail']) ? 'mail = \'' . $form['mail'] . '\'' : 'name = \'' . $db->escape($form['name']) . '\'';
+			$user = $db->select('id, name, mail', 'users', $where_stmt);
+			$subject = sprintf(lang('users', 'forgot_pwd_mail_subject'), CONFIG_TITLE, htmlentities($_SERVER['HTTP_HOST']));
+			$message = sprintf(lang('users', 'forgot_pwd_mail_message'), $user[0]['name'], CONFIG_TITLE, htmlentities($_SERVER['HTTP_HOST']), $user[0]['name'], $user[0]['mail'], $new_password);
+			$header = 'Content-type: text/plain; charset=' . CHARSET;
+			$mail_sent = mail($user[0]['mail'], $subject, $message, $header);
+			if ($mail_sent) {
+				$update_values = array(
+					'pwd' => sha1($salt . sha1($new_password)) . ':' . $salt,
+				);
+				$bool = $db->update('users', $update_values, 'id = \'' . $user[0]['id'] . '\'');
+			}
+			$content = combo_box($mail_sent && isset($bool) && $bool ? lang('users', 'forgot_pwd_success') : lang('users', 'forgot_pwd_error'), ROOT_DIR);
 		}
 		break;
 	case 'register':
