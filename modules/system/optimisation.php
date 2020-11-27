@@ -5,7 +5,7 @@ $action = $modules->action == 'do' ? true : false;
 $tpl->assign('action', $action);
 if ($action) {
 	$overall_overhead = 0;
-	$table_status = $db->query('SHOW TABLE STATUS FROM ' . CONFIG_DB);
+	$table_status = $db->query('SHOW TABLE STATUS FROM ' . CONFIG_DB_NAME);
 	$c_table_status = count($table_status);
 	for($i = 0; $i < $c_table_status; $i++) {
 		$overhead_row = round($table_status[$i]['Data_free'] / 1024, 3);
