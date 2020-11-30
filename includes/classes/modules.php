@@ -46,28 +46,14 @@ class modules
 			define('POS', '0');
 		}
 	}
-	function active_modules()
-	{
-		$modules = scandir('modules/');
-		$active_modules = array();
-		foreach ($modules as $module) {
-			if ($this->is_active($module)) {
-				$mod_info = array();
-				include 'modules/' . $module . '/info.php';
-				$active_modules[$mod_info['name']] = $module;
-			}
-		}
-		ksort($active_modules);
-		return $active_modules;
-	}
 	function check($module = 0, $page = 0) {
 		global $db;
 		static $access_level = array();
 		$module = !empty($module) ? $module : $this->mod;
 		$page = !empty($page) ? $page : $this->page;
 		if (isset($_SESSION) && is_file('modules/' . $module . '/' . $page . '.php')) {
-			$xml = simplexml_load_file('modules/' . $module . '/access.xml');
-			if ((string) $xml->active == '1') {
+			$xml = simplexml_load_file('modules/' . $module . '/module.xml');
+			if ((string) $xml->info->active == '1') {
 				if (!isset($access_level[$module])) {
 					$access_to_modules = $db->select('modules', 'access', 'id = \'' . $_SESSION['acp3_access'] . '\'');
 					$modules = explode(',', $access_to_modules[0]['modules']);
@@ -82,7 +68,7 @@ class modules
 						}
 					}
 				} else {
-					foreach ($xml->item as $item) {
+					foreach ($xml->access->item as $item) {
 						if ((string) $item->file == $page && (string) $item->level != '0' && isset($access_level[$module]) && (string) $item->level <= $access_level[$module]) {
 							return true;
 						}
@@ -92,14 +78,36 @@ class modules
 		}
 		return false;
 	}
-	function is_active($module)
+	function modulesList()
 	{
-		$path = 'modules/' . $module;
-		if (is_file($path . '/access.xml') && is_file($path . '/info.php')) {
-			$xml = simplexml_load_file($path . '/access.xml');
-			if ((string) $xml->active == '1') {
-				return true;
+		$modules_dir = scandir('modules/');
+		$mod_list = array();
+		foreach ($modules_dir as $module) {
+			$info = $this->parseInfo($module);
+			if (is_array($info)) {
+				$name = $info['name'];
+				$mod_list[$name] = $info;
+				$mod_list[$name]['dir'] = $module;
 			}
+		}
+		ksort($mod_list);
+		return $mod_list;
+	}
+	function parseInfo($module)
+	{
+		$path = 'modules/' . $module . '/module.xml';
+		if (!preg_match('=/=', $module) && is_file($path)) {
+			$xml = simplexml_load_file($path);
+			$info = $xml->info;
+			$mod_info = array();
+			$mod_info['author'] = (string) $info->author;
+			$mod_info['description'] = (string) $info->description['lang'] == 'true' ? lang($module, 'mod_description') : (string) $info->description;
+			$mod_info['name'] = (string) $info->name['lang'] == 'true' ? lang($module, $module) : (string) $info->name;
+			$mod_info['version'] = (string) $info->version['core'] == 'true' ? CONFIG_VERSION : (string) $info->version;
+			$mod_info['active'] = (string) $info->active;
+			$mod_info['categories'] = isset($info->categories) ? true : false;
+			$mod_info['protected'] = $info->protected ? true : false;
+			return $mod_info;
 		}
 		return false;
 	}

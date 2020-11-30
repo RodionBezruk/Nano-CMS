@@ -1,7 +1,7 @@
 <?php
 if (!defined('IN_ACP3') && !defined('IN_ADM'))
 	exit;
-if (!$modules->check(0, 'entry'))
+if (!$modules->check('newsletter', 'entry'))
 	redirect('errors/403');
 switch ($modules->action) {
 	case 'subscribe':

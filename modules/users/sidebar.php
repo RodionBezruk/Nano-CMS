@@ -2,9 +2,10 @@
 if (!defined('IN_ACP3') && !defined('IN_ADM'))
 	exit;
 if (defined('IS_USER')) {
-	$active_modules = $modules->active_modules();
+	$mod_list = $modules->modulesList();
 	$nav_mods = array();
-	foreach ($active_modules as $name => $dir) {
+	foreach ($mod_list as $name => $info) {
+		$dir = $info['dir'];
 		if ($modules->check($dir, 'adm_list')) {
 			if ($dir == 'system') {
 				$tpl->assign('access_system', true);

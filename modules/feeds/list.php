@@ -7,8 +7,8 @@ if (isset($modules->gen['feed'])) {
 	$rss['link'] = $link . ROOT_DIR;
 	$rss['description'] = lang($module, $module);
 	$tpl->assign('rss', $rss);
-	if (isset($module) && $modules->is_active($module)) {
-		include 'modules/feeds/modules/' . $module . '.php';
+	if (isset($module) && $modules->check($module, 'extensions/feeds')) {
+		include 'modules/' . $module . '/extensions/feeds.php';
 	}
 	define('CUSTOM_CONTENT_TYPE', 'application/xml');
 	define('CUSTOM_LAYOUT', 'feeds/rss.html');

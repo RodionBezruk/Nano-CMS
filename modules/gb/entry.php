@@ -1,16 +1,18 @@
 <?php
 if (!defined('IN_ACP3') && !defined('IN_ADM'))
 	exit;
-if (!$modules->check(0, 'entry'))
+if (!$modules->check('gb', 'entry'))
 	redirect('errors/403');
 switch ($modules->action) {
 	case 'create':
 		$ip = $_SERVER['REMOTE_ADDR'];
 		$form = $_POST['form'];
 		$flood = $db->select('date', 'gb', 'ip = \'' . $ip . '\'', 'id DESC', '1');
-		$flood_time = $flood[0]['date'] + CONFIG_FLOOD;
+		if (count($flood) == '1') {
+			$flood_time = $flood[0]['date'] + CONFIG_FLOOD;
+		}
 		$time = date_aligned(2, time());
-		if ($flood_time > $time)
+		if (isset($flood_time) && $flood_time > $time)
 			$errors[] = sprintf(lang('common', 'flood_no_entry_possible'), $flood_time - $time);
 		if (empty($form['name']))
 			$errors[] = lang('common', 'name_to_short');
