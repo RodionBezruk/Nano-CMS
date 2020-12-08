@@ -37,21 +37,27 @@ class breadcrumb
 				return $modules->page != 'list' && $modules->page != 'entry' ? lang($modules->mod, $modules->page) : lang($modules->mod, $modules->mod);
 			}
 		} elseif (defined('IN_ADM')) {
-			$breadcrumb[0]['uri'] = uri('acp');
-			$breadcrumb[0]['title'] = lang('common', 'acp');
 			if ($mode == 1) {
-				if ($modules->mod == 'errors' || $modules->page == 'adm_list' || $modules->page == 'entry') {
+				$breadcrumb[0]['uri'] = uri('acp');
+				$breadcrumb[0]['title'] = lang('common', 'acp');
+				$c_steps = count($this->steps);
+				if (($modules->page == 'adm_list' || $modules->page == 'entry') && $c_steps == 0) {
 					$tpl->assign('end', lang($modules->mod, $modules->mod));
 				} else {
-					$breadcrumb[1]['uri'] = uri('acp/' . $modules->mod);
-					$breadcrumb[1]['title'] = lang($modules->mod, $modules->mod);
-					$tpl->assign('end', lang($modules->mod, $modules->page));
+					if ($c_steps > 0) {
+						$tpl->assign('breadcrumb', array_merge($breadcrumb, $this->steps));
+						$tpl->assign('end', $this->end);
+					} else {
+						$breadcrumb[1]['uri'] = uri('acp/' . $modules->mod);
+						$breadcrumb[1]['title'] = lang($modules->mod, $modules->mod);
+						$tpl->assign('breadcrumb', $breadcrumb);
+						$tpl->assign('end', lang($modules->mod, $modules->page));
+					}
 				}
-				$tpl->assign('breadcrumb', $breadcrumb);
 				return $tpl->fetch('common/breadcrumb.html');
 			}
 			else {
-				return $modules->mod == 'errors' || $modules->page == 'adm_list' || $modules->page == 'entry' ? lang($modules->mod, $modules->mod) : lang($modules->mod, $modules->page);
+				return $modules->page == 'adm_list' || $modules->page == 'entry' ? lang($modules->mod, $modules->mod) : lang($modules->mod, $modules->page);
 			}
 		}
 		return '';
