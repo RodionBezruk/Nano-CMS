@@ -45,15 +45,15 @@ class breadcrumb
 					$tpl->assign('end', lang($modules->mod, $modules->mod));
 				} else {
 					if ($c_steps > 0) {
-						$tpl->assign('breadcrumb', array_merge($breadcrumb, $this->steps));
+						$breadcrumb = array_merge($breadcrumb, $this->steps);
 						$tpl->assign('end', $this->end);
 					} else {
 						$breadcrumb[1]['uri'] = uri('acp/' . $modules->mod);
 						$breadcrumb[1]['title'] = lang($modules->mod, $modules->mod);
-						$tpl->assign('breadcrumb', $breadcrumb);
 						$tpl->assign('end', lang($modules->mod, $modules->page));
 					}
 				}
+				$tpl->assign('breadcrumb', $breadcrumb);
 				return $tpl->fetch('common/breadcrumb.html');
 			}
 			else {
