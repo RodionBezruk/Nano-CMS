@@ -11,7 +11,7 @@ switch ($modules->action) {
 		if (strlen($form['name']) < 3)
 			$errors[] = lang('gallery', 'type_in_gallery_name');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$start_date = date_aligned(3, array($form['start_hour'], $form['start_min'], 0, $form['start_month'], $form['start_day'], $form['start_year']));
 			$end_date = date_aligned(3, array($form['end_hour'], $form['end_min'], 0, $form['end_month'], $form['end_day'], $form['end_year']));
@@ -32,7 +32,7 @@ switch ($modules->action) {
 		if (strlen($form['name']) < 3)
 			$errors[] = lang('gallery', 'type_in_gallery_name');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$start_date = date_aligned(3, array($form['start_hour'], $form['start_min'], 0, $form['start_month'], $form['start_day'], $form['start_year']));
 			$end_date = date_aligned(3, array($form['end_hour'], $form['end_min'], 0, $form['end_month'], $form['end_day'], $form['end_year']));
@@ -87,7 +87,7 @@ switch ($modules->action) {
 		if (!empty($file['tmp_name']) && $file['size'] > '0' && !$validate->is_picture($file['tmp_name']))
 			$errors[] = lang('gallery', 'only_png_jpg_gif_allowed');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$result = move_file($file['tmp_name'], $file['name'], 'gallery');
 			$insert_values = array(
@@ -116,7 +116,7 @@ switch ($modules->action) {
 		if (isset($file) && is_array($file) && !$validate->is_picture($file['tmp_name']))
 			$errors[] = lang('gallery', 'only_png_jpg_gif_allowed');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$new_file_sql = null;
 			if (isset($file) && is_array($file)) {

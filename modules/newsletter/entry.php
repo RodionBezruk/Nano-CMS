@@ -11,7 +11,7 @@ switch ($modules->action) {
 		if ($validate->email($form['mail']) && $db->select('id', 'nl_accounts', 'mail = \'' . $form['mail'] . '\'', 0, 0, 0, 1) == 1)
 			$errors[] = lang('newsletter', 'nl_account_exists');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$time = explode(' ', microtime());
 			$hash = md5(mt_rand(0, $time['1']));
@@ -35,7 +35,7 @@ switch ($modules->action) {
 		if ($validate->email($form['mail']) && $db->select('id', 'nl_accounts', 'mail = \'' . $form['mail'] . '\'', 0, 0, 0, 1) != 1)
 			$errors[] = lang('newsletter', 'nl_account_not_exists');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$bool = $db->delete('nl_accounts', 'mail = \'' . $form['mail'] . '\'');
 			$content = combo_box($bool ? lang('newsletter', 'nl_unsubscribe_success') : lang('newsletter', 'nl_unsubscribe_error'), ROOT_DIR);
@@ -51,7 +51,7 @@ switch ($modules->action) {
 		if ($db->select('id', 'nl_accounts', 'mail = \'' . $mail . '\' AND hash = \'' . $db->escape($hash, 2) . '\'', 0, 0, 0, 1) != 1)
 			$errors[] = lang('newsletter', 'nl_account_not_exists');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$bool = $db->update('nl_accounts', array('hash', ''), 'mail = \'' . $mail . '\' AND hash = \'' . $db->escape($hash, 2) . '\'');
 			$content = combo_box($bool ? lang('newsletter', 'nl_activate_success') : lang('newsletter', 'nl_activate_error'), ROOT_DIR);
@@ -66,7 +66,7 @@ switch ($modules->action) {
 		if (!$validate->email($form['mail']))
 			$errors[] = lang('common', 'wrong_email_format');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$bool = $config->module('newsletter', $form);
 			$content = combo_box($bool ? lang('newsletter', 'edit_success') : lang('newsletter', 'edit_error'), uri('acp/newsletter'));

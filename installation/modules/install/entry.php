@@ -46,7 +46,7 @@ if (!file_exists('../includes/config.php') || !is_writable('../includes/config.p
 	$errors[] = lang('wrong_chmod_for_config_file');
 if (isset($errors)) {
 	$tpl->assign('errors', $errors);
-	$error_msg = $tpl->fetch('error.html');
+	$tpl->assign('error_msg', $tpl->fetch('error.html'));
 } else {
 	define('CHARSET', 'UTF-8');
 	$form['date'] = mask($form['date']);

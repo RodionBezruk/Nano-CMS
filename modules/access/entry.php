@@ -20,7 +20,7 @@ switch ($modules->action) {
 		if ($empty)
 			$errors[] = lang('access', 'select_modules');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$form['modules']['errors'] = '2';
 			ksort($form['modules']);
@@ -53,7 +53,7 @@ switch ($modules->action) {
 		if ($empty)
 			$errors[] = lang('access', 'select_modules');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$form['modules']['errors'] = '2';
 			ksort($form['modules']);

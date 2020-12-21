@@ -4,9 +4,8 @@ if (!defined('IN_ADM'))
 if (isset($_POST['submit'])) {
 	include 'modules/pages/entry.php';
 }
-if (!isset($_POST['submit']) || isset($error_msg)) {
+if (!isset($_POST['submit']) || isset($errors) && is_array($errors)) {
 	include_once 'modules/pages/functions.php';
-	$tpl->assign('error_msg', isset($error_msg) ? $error_msg : '');
 	$tpl->assign('start_day', date_dropdown('day', 'start_day', 'start_day'));
 	$tpl->assign('start_month', date_dropdown('month', 'start_month', 'start_month'));
 	$tpl->assign('start_year', date_dropdown('year', 'start_year', 'start_year'));

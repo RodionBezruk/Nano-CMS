@@ -13,7 +13,7 @@ switch ($modules->action) {
 		if (strlen($form['message']) < 3)
 			$errors[] = lang('common', 'message_to_short');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$contact = $config->output('contact');
 			$subject = sprintf(lang('contact', 'contact_subject'), CONFIG_TITLE);
@@ -27,7 +27,7 @@ switch ($modules->action) {
 		if (!empty($form['mail']) && !$validate->email($form['mail']))
 			$errors[] = lang('common', 'wrong_email_format');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$form['address'] = $db->escape($form['address'], 2);
 			$form['telephone'] = $db->escape($form['telephone']);

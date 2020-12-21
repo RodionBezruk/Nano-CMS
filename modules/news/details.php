@@ -6,8 +6,7 @@ if (!empty($modules->id) && $db->select('id', 'news', 'id = \'' . $modules->id .
 	if (isset($_POST['submit'])) {
 		include_once 'modules/comments/entry.php';
 	}
-	if (!isset($_POST['submit']) || isset($error_msg)) {
-		$tpl->assign('error_msg', isset($error_msg) ? $error_msg : '');
+	if (!isset($_POST['submit']) || isset($errors) && is_array($errors)) {
 		$tpl->assign('form', isset($form) ? $form : '');
 		if (!$cache->check('news_details_id_' . $modules->id)) {
 			$cache->create('news_details_id_' . $modules->id, $db->select('id, start, headline, text, cat, uri, target, link_title', 'news', 'id = \'' . $modules->id . '\''));

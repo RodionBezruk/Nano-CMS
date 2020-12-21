@@ -15,7 +15,7 @@ switch ($modules->action) {
 		if (empty($form['sort']) || $form['sort'] != 'asc' && $form['sort'] != 'desc')
 			$errors[] = lang('search', 'no_hits_sorting_selected');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$form['sort'] = strtoupper($form['sort']);
 			$results_mods = array();

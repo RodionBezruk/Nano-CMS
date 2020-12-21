@@ -19,7 +19,7 @@ switch ($modules->action) {
 		if (empty($form['pwd']) || empty($form['pwd_repeat']) || $form['pwd'] != $form['pwd_repeat'])
 			$errors[] = lang('users', 'type_in_pwd');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$salt = salt(12);
 			$insert_values = array(
@@ -48,7 +48,7 @@ switch ($modules->action) {
 		if (!empty($form['new_pwd']) && !empty($form['new_pwd_repeat']) && $form['new_pwd'] != $form['new_pwd_repeat'])
 			$errors[] = lang('users', 'type_in_pwd');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$new_pwd_sql = null;
 			if (!empty($form['new_pwd']) && !empty($form['new_pwd_repeat'])) {
@@ -131,7 +131,7 @@ switch ($modules->action) {
 		if ($validate->email($form['mail']) && $db->select('id', 'users', 'mail = \'' . $form['mail'] . '\'', 0, 0, 0, 1) == '0')
 			$errors[] = lang('users', 'user_not_exists');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$new_password = salt(8);
 			$salt = salt(12);
@@ -163,7 +163,7 @@ switch ($modules->action) {
 		if (empty($form['pwd']) || empty($form['pwd_repeat']) || $form['pwd'] != $form['pwd_repeat'])
 			$errors[] = lang('users', 'type_in_pwd');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$salt = salt(12);
 			$subject = sprintf(lang('users', 'register_mail_subject'), CONFIG_TITLE, htmlentities($_SERVER['HTTP_HOST']));

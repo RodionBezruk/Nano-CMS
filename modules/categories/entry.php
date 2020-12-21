@@ -15,7 +15,7 @@ switch ($modules->action) {
 		if (strlen($form['name']) > 3 && !empty($form['module']) && $db->select('id', 'categories', 'name = \'' . $db->escape($form['name']) . '\' AND module = \'' . $db->escape($form['module'], 2) . '\'', 0, 0, 0, 1) > 0)
 			$errors[] = lang('categories', 'category_already_exists');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$insert_values = array(
 				'id' => '',
@@ -39,7 +39,7 @@ switch ($modules->action) {
 		if (strlen($form['name']) > 3 && !empty($form['module']) && $db->select('id', 'categories', 'id != \'' . $modules->id . '\' AND name = \'' . $db->escape($form['name']) . '\' AND module = \'' . $db->escape($form['module'], 2) . '\'', 0, 0, 0, 1) > 0)
 			$errors[] = lang('categories', 'category_already_exists');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$update_values = array(
 				'name' => $db->escape($form['name']),

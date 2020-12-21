@@ -4,8 +4,7 @@ if (!defined('IN_ADM'))
 if (isset($_POST['submit'])) {
 	include 'modules/categories/entry.php';
 }
-if (!isset($_POST['submit']) || isset($error_msg)) {
-	$tpl->assign('error_msg', isset($error_msg) ? $error_msg : '');
+if (!isset($_POST['submit']) || isset($errors) && is_array($errors)) {
 	$tpl->assign('form', isset($form) ? $form : '');
 	$mod_list = $modules->modulesList();
 	foreach ($mod_list as $name => $info) {

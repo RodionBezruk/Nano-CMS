@@ -67,7 +67,7 @@ switch ($modules->action) {
 		if (empty($form['db_type']))
 			$errors[] = lang('system', 'select_db_type');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$bool = $config->general($form);
 			$content = combo_box($bool ? lang('system', 'config_edit_success') : lang('system', 'config_edit_error'), uri('acp/system/configuration'));
@@ -94,7 +94,7 @@ switch ($modules->action) {
 		if (!empty($update_file['name']) && $update_file['size'] > 0 && !eregi('.+(\.sql)$', $update_file['name']))
 			$errors[] = lang('system', 'wrong_file_format');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$updates = !empty($update_file['name']) ? file($_FILES['update_file']['tmp_name']) : explode("\n", $update_text);
 			$i = 0;

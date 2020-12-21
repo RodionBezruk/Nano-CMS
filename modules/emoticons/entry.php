@@ -18,7 +18,7 @@ switch ($modules->action) {
 		if (!isset($file) || $file['size'] == '0' || !$validate->is_picture($file['tmp_name']))
 			$errors[] = lang('emoticons', 'select_picture');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$result = move_file($file['tmp_name'], $file['name'], 'emoticons');
 			$insert_values = array(
@@ -46,7 +46,7 @@ switch ($modules->action) {
 		if (isset($file) && ($file['size'] == '0' || !$validate->is_picture($file['tmp_name'])))
 			$errors[] = lang('emoticons', 'select_picture');
 		if (isset($errors)) {
-			$error_msg = combo_box($errors);
+			combo_box($errors);
 		} else {
 			$new_file_sql = null;
 			if (isset($file)) {
