@@ -26,7 +26,9 @@ class breadcrumb
 					$tpl->assign('breadcrumb', $this->steps);
 					$tpl->assign('end', $this->end);
 				} else {
-					if ($modules->page == 'list' || $modules->page == 'entry') {
+					if (!empty($this->end)) {
+						$tpl->assign('end', $this->end);
+					} elseif ($modules->page == 'list' || $modules->page == 'entry') {
 						$tpl->assign('end', lang($modules->mod, $modules->mod));
 					} else {
 						$tpl->assign('end', lang($modules->mod, $modules->page));
