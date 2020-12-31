@@ -28,7 +28,6 @@ $defaults = array(
 	'modules/files/module.xml',
 	'modules/gallery/module.xml',
 	'modules/gb/module.xml',
-	'modules/home/module.xml',
 	'modules/news/module.xml',
 	'modules/newsletter/module.xml',
 	'modules/pages/module.xml',

@@ -7,14 +7,25 @@ if (!empty($modules->id) && $db->select('id', 'news', 'id = \'' . $modules->id .
 		include_once 'modules/comments/entry.php';
 	}
 	if (!isset($_POST['submit']) || isset($errors) && is_array($errors)) {
-		$tpl->assign('form', isset($form) ? $form : '');
+		if ($auth->is_user() && preg_match('/\d/', $_SESSION['acp3_id'])) {
+			$user = $db->select('name', 'users', 'id = \'' . $_SESSION['acp3_id'] . '\'');
+			$disabled = ' readonly="readonly" class="readonly"';
+			if (isset($form)) {
+				$form['name_disabled'] = $disabled;
+			} else {
+				$user[0]['name_disabled'] = $disabled;
+			}
+			$tpl->assign('form', isset($form) ? $form : $user[0]);
+		} else {
+			$tpl->assign('form', isset($form) ? $form : array('name_disabled' => ''));
+		}
 		if (!$cache->check('news_details_id_' . $modules->id)) {
-			$cache->create('news_details_id_' . $modules->id, $db->select('id, start, headline, text, cat, uri, target, link_title', 'news', 'id = \'' . $modules->id . '\''));
+			$cache->create('news_details_id_' . $modules->id, $db->select('id, start, headline, text, category_id, uri, target, link_title', 'news', 'id = \'' . $modules->id . '\''));
 		}
 		$news = $cache->output('news_details_id_' . $modules->id);
 		$breadcrumb->assign(lang('news', 'news'), uri('news'));
-		$category = $db->select('name', 'categories', 'id = \'' . $news[0]['cat'] . '\'');
-		$breadcrumb->assign($category[0]['name'], uri('news/list/cat_' . $news[0]['cat']));
+		$category = $db->select('name', 'categories', 'id = \'' . $news[0]['category_id'] . '\'');
+		$breadcrumb->assign($category[0]['name'], uri('news/list/cat_' . $news[0]['category_id']));
 		$breadcrumb->assign($news[0]['headline']);
 		$news[0]['date'] = date_aligned(1, $news[0]['start']);
 		$news[0]['headline'] = $news[0]['headline'];

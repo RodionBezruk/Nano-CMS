@@ -27,7 +27,7 @@ switch ($modules->action) {
 				'end' => $end_date,
 				'headline' => $db->escape($form['headline']),
 				'text' => $db->escape($form['text'], 2),
-				'cat' => $form['cat'],
+				'category_id' => $form['cat'],
 				'uri' => $db->escape($form['uri'], 2),
 				'target' => $form['target'],
 				'link_title' => $db->escape($form['link_title'])
@@ -58,13 +58,13 @@ switch ($modules->action) {
 				'end' => $end_date,
 				'headline' => $db->escape($form['headline']),
 				'text' => $db->escape($form['text'], 2),
-				'cat' => $form['cat'],
+				'category_id' => $form['cat'],
 				'uri' => $db->escape($form['uri'], 2),
 				'target' => $form['target'],
 				'link_title' => $db->escape($form['link_title'])
 			);
 			$bool = $db->update('news', $update_values, 'id = \'' . $modules->id . '\'');
-			$cache->create('news_details_id_' . $modules->id, $db->select('id, start, headline, text, cat, uri, target, link_title', 'news', 'id = \'' . $modules->id . '\''));
+			$cache->create('news_details_id_' . $modules->id, $db->select('id, start, headline, text, category_id, uri, target, link_title', 'news', 'id = \'' . $modules->id . '\''));
 			$content = combo_box($bool ? lang('news', 'edit_success') : lang('news', 'edit_error'), uri('acp/news'));
 		}
 		break;

@@ -23,10 +23,10 @@ if (!empty($modules->id) && $db->select('id', 'gallery', 'id = \'' . $modules->i
 		$tpl->assign('end_hour', date_dropdown('hour', 'end_hour', 'end_hour', $end_date[3]));
 		$tpl->assign('end_min', date_dropdown('min', 'end_min', 'end_min', $end_date[4]));
 		$tpl->assign('form', isset($form) ? $form : $gallery[0]);
-		$pictures = $db->select('id, pic, file, description', 'galpics', 'gallery = \'' . $modules->id . '\'', 'pic ASC', POS, CONFIG_ENTRIES);
+		$pictures = $db->select('id, pic, file, description', 'galpics', 'gallery_id = \'' . $modules->id . '\'', 'pic ASC', POS, CONFIG_ENTRIES);
 		$c_pictures = count($pictures);
 		if ($c_pictures > 0) {
-			$tpl->assign('pagination', pagination($db->select('id', 'galpics', 'gallery = \'' . $modules->id . '\'', 0, 0, 0, 1)));
+			$tpl->assign('pagination', pagination($db->select('id', 'galpics', 'gallery_id = \'' . $modules->id . '\'', 0, 0, 0, 1)));
 			for ($i = 0; $i < $c_pictures; $i++) {
 				$pictures[$i]['description'] = $db->escape($pictures[$i]['description'], 3);
 			}

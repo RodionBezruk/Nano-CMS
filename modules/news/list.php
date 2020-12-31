@@ -20,7 +20,7 @@ if ($c_categories > 0) {
 	}
 	$tpl->assign('categories', $categories);
 }
-$cat_field = !empty($cat) ? ' AND cat=\'' . $cat . '\'' : '';
+$cat_field = !empty($cat) ? ' AND category_id = \'' . $cat . '\'' : '';
 $date = '(start = end AND start <= \'' . date_aligned(2, time()) . '\' OR start != end AND start <= \'' . date_aligned(2, time()) . '\' AND end >= \'' . date_aligned(2, time()) . '\')';
 $news = $db->select('id, start, headline, text, uri', 'news', $date . $cat_field, 'id DESC', POS, CONFIG_ENTRIES);
 $c_news = count($news);

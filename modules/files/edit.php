@@ -6,7 +6,7 @@ if (!empty($modules->id) && $db->select('id', 'files', 'id = \'' . $modules->id 
 		include 'modules/files/entry.php';
 	}
 	if (!isset($_POST['submit']) || isset($errors) && is_array($errors)) {
-		$dl = $db->select('start, end, cat, file, size, link_title, text', 'files', 'id = \'' . $modules->id . '\'');
+		$dl = $db->select('start, end, category_id, file, size, link_title, text', 'files', 'id = \'' . $modules->id . '\'');
 		$dl[0]['text'] = $db->escape($dl[0]['text'], 3);
 		$start_date = explode('.', date_aligned(1, $dl[0]['start'], 'j.n.Y.G.i'));
 		$end_date = explode('.', date_aligned(1, $dl[0]['end'], 'j.n.Y.G.i'));
@@ -28,7 +28,7 @@ if (!empty($modules->id) && $db->select('id', 'files', 'id = \'' . $modules->id 
 		if ($c_categories > 0) {
 			for ($i = 0; $i < $c_categories; $i++) {
 				$categories[$i]['name'] = $categories[$i]['name'];
-				$categories[$i]['selected'] = select_entry('cat', $categories[$i]['id'], $dl[0]['cat']);
+				$categories[$i]['selected'] = select_entry('cat', $categories[$i]['id'], $dl[0]['category_id']);
 			}
 			$tpl->assign('categories', $categories);
 		}

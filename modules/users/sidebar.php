@@ -1,7 +1,7 @@
 <?php
 if (!defined('IN_ACP3') && !defined('IN_ADM'))
 	exit;
-if (defined('IS_USER')) {
+if ($auth->is_user()) {
 	$mod_list = $modules->modulesList();
 	$nav_mods = array();
 	foreach ($mod_list as $name => $info) {

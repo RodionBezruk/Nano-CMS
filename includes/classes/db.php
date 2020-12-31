@@ -88,7 +88,8 @@ class db
 					return $result;
 				}
 		}
-		return $this->error();
+		$this->error();
+		return false;
 	}
 	function delete($table, $field, $limit = 0)
 	{
