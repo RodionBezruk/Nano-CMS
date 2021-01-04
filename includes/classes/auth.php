@@ -2,7 +2,6 @@
 class auth
 {
 	private $is_user = false;
-	private $is_guest = true;
 	function __construct()
 	{
 		session_start();
@@ -15,7 +14,6 @@ class auth
 				$db_password = substr($user_check[0]['pwd'], 0, 40);
 				if ($db_password == $cookie_arr[1]) {
 					$this->is_user = true;
-					$this->is_guest = false;
 					if (empty($_SESSION['acp3_id']) || empty($_SESSION['acp3_access'])) {
 						$_SESSION['acp3_id'] = $user_check[0]['id'];
 						$_SESSION['acp3_access'] = $user_check[0]['access'];
@@ -32,10 +30,6 @@ class auth
 	function is_user()
 	{
 		return $this->is_user;
-	}
-	function is_guest()
-	{
-		return $this->is_guest;
 	}
 }
 ?>
