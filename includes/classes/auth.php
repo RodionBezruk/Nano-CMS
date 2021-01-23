@@ -32,6 +32,18 @@ class auth
 			$_SESSION['acp3_access'] = '2';
 		}
 	}
+	function getUserInfo($fields, $user_id = 0)
+	{
+		if (empty($user_id) && $this->is_user) {
+			$user_id = $_SESSION['acp3_id'];
+		}
+		if (preg_match('/\d/', $user_id)) {
+			global $db;
+			$info = $db->select($fields, 'users', 'id = \'' . $user_id . '\'');
+			return count($info) == '1' ? $info[0] : false;
+		}
+		return false;
+	}
 	function is_user()
 	{
 		return $this->is_user;
