@@ -4,14 +4,14 @@ if (!defined('IN_ADM'))
 if (isset($_POST['entries']) || isset($modules->gen['entries'])) {
 	include 'modules/news/entry.php';
 } else {
-	$news = $db->select('id, start, end, headline, cat', 'news', 0, 'start DESC', POS, CONFIG_ENTRIES);
+	$news = $db->select('id, start, end, headline, category_id', 'news', 0, 'start DESC', POS, CONFIG_ENTRIES);
 	$c_news = count($news);
 	if ($c_news > 0) {
 		$tpl->assign('pagination', pagination($db->select('id', 'news', 0, 0, 0, 0, 1)));
 		for ($i = 0; $i < $c_news; $i++) {
 			$news[$i]['start'] = date_aligned(1, $news[$i]['start']);
 			$news[$i]['end'] = date_aligned(1, $news[$i]['end']);
-			$cat = $db->select('name', 'categories', 'id = \'' . $news[$i]['cat'] . '\'');
+			$cat = $db->select('name', 'categories', 'id = \'' . $news[$i]['category_id'] . '\'');
 			$news[$i]['cat'] = $cat[0]['name'];
 		}
 		$tpl->assign('news', $news);

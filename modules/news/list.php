@@ -3,7 +3,7 @@ if (!defined('IN_ACP3'))
 	exit;
 $tpl->assign('MOD_newsletter', $modules->check('newsletter', 'create'));
 $tpl->assign('MOD_feeds', $modules->check('feeds', 'list'));
-$cat = isset($_POST['form']['cat']) && ereg('[0-9]', $_POST['form']['cat']) ? $_POST['form']['cat'] : $modules->cat;
+$cat = isset($_POST['form']['cat']) && $validate->is_number($_POST['form']['cat']) ? $_POST['form']['cat'] : $modules->cat;
 if (!$cache->check('categories_news')) {
 	$cache->create('categories_news', $db->select('id, name, description', 'categories', 'module = \'news\'', 'name ASC'));
 }

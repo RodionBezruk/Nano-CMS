@@ -1,5 +1,5 @@
 <?php
-if (empty($_GET['id']) || !ereg('[0-9]', $_GET['id']) || empty($_GET['mode']) || $_GET['mode'] != 'mini' && $_GET['mode'] != 'thumb')
+if (empty($_GET['id']) || !preg_match('/^(\d+)$/', $_GET['id']) || empty($_GET['mode']) || $_GET['mode'] != 'mini' && $_GET['mode'] != 'thumb')
 	exit;
 @set_time_limit(20);
 error_reporting(0);

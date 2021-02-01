@@ -5,7 +5,7 @@ $date = ' AND (start = end AND start <= \'' . date_aligned(2, time()) . '\' OR s
 if (!empty($modules->id) && $db->select('id', 'poll_question', 'id = \'' . $modules->id . '\'' . $date, 0, 0, 0, 1) == 1) {
 	$breadcrumb->assign(lang('polls', 'polls'), uri('polls'));
 	$breadcrumb->assign(lang('polls', 'vote'));
-	if (isset($_POST['submit']) && isset($_POST['answer']) && ereg('[0-9]', $_POST['answer'])) {
+	if (isset($_POST['submit']) && isset($_POST['answer']) && $validate->is_number($_POST['answer'])) {
 		$answer = $_POST['answer'];
 		$ip = $_SERVER['REMOTE_ADDR'];
 		$time = date_aligned(2, time());
