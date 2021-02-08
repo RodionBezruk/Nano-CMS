@@ -50,7 +50,7 @@ class modules
 		}
 	}
 	function check($module = 0, $page = 0) {
-		global $db;
+		global $auth, $db;
 		static $access_level = array();
 		$module = !empty($module) ? $module : $this->mod;
 		$page = !empty($page) ? $page : $this->page;
@@ -58,7 +58,14 @@ class modules
 			$xml = simplexml_load_file('modules/' . $module . '/module.xml');
 			if ((string) $xml->info->active == '1') {
 				if (!isset($access_level[$module])) {
-					$access_to_modules = $db->select('modules', 'access', 'id = \'' . $_SESSION['acp3_access'] . '\'');
+					$access_id = 2;
+					if (isset($_SESSION['acp3_id'])) {
+						$info = $auth->getUserInfo('access');
+						if (!empty($info)) {
+							$access_id = $info['access'];
+						}
+					}
+					$access_to_modules = $db->select('modules', 'access', 'id = \'' . $access_id . '\'');
 					$modules = explode(',', $access_to_modules[0]['modules']);
 					foreach ($modules as $row) {
 						$access_level[substr($row, 0, -2)] = substr($row, -1, 1);

@@ -5,7 +5,7 @@ if ($auth->is_user()) {
 	redirect(0, ROOT_DIR);
 } elseif (isset($_POST['submit'])) {
 	$form = $_POST['form'];
-	$user = $db->select('id, pwd, access', 'users', 'nickname = \'' . $db->escape($form['nickname']) . '\'');
+	$user = $db->select('id, pwd', 'users', 'nickname = \'' . $db->escape($form['nickname']) . '\'');
 	$auth = false;
 	if (count($user) == '1') {
 		$db_hash = substr($user[0]['pwd'], 0, 40);
@@ -19,7 +19,6 @@ if ($auth->is_user()) {
 		$expire = isset($_POST['remember']) ? 31104000 : 3600;
 		setcookie('ACP3_AUTH', $db->escape($form['nickname']) . '|' . $db_hash, time() + $expire, ROOT_DIR);
 		$_SESSION['acp3_id'] = $user[0]['id'];
-		$_SESSION['acp3_access'] = $user[0]['access'];
 		if (isset($form['redirect_uri'])) {
 			redirect(0, base64_decode($form['redirect_uri']));
 		} else {
