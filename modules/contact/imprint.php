@@ -1,7 +1,7 @@
 <?php
 if (!defined('IN_ACP3'))
 	exit;
-$breadcrumb->assign(lang('contact', 'contact'), uri('contact/contact'));
+$breadcrumb->assign(lang('contact', 'contact'), uri('contact'));
 $breadcrumb->assign(lang('contact', 'imprint'));
 $contact = $config->output('contact');
 $contact['address'] = $db->escape($contact['address'], 3);

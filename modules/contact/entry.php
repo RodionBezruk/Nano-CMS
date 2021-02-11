@@ -4,7 +4,7 @@ if (!defined('IN_ACP3') && !defined('IN_ADM'))
 if (!$modules->check('contact', 'entry'))
 	redirect('errors/403');
 switch ($modules->action) {
-	case 'contact':
+	case 'send_mail':
 		$form = $_POST['form'];
 		if (empty($form['name']))
 			$errors[] = lang('common', 'name_to_short');
@@ -19,7 +19,7 @@ switch ($modules->action) {
 			$subject = sprintf(lang('contact', 'contact_subject'), CONFIG_TITLE);
 			$body = sprintf(lang('contact', 'contact_body'), $form['name'], $form['mail']) . "\n\n" . $form['message'];
 			$bool = @mail($contact[0]['mail'], $subject, $body, 'FROM:' . $form['mail']);
-			$content = combo_box($bool ? lang('contact', 'form_success') : lang('contact', 'form_error'), uri('contact/contact'));
+			$content = combo_box($bool ? lang('contact', 'send_mail_success') : lang('contact', 'send_mail_error'), uri('contact'));
 		}
 		break;
 	case 'edit':
