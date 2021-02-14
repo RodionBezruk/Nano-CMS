@@ -1,6 +1,9 @@
 <?php
 if (!defined('IN_ADM'))
 	exit;
+$breadcrumb->assign(lang('system', 'system'), uri('acp/system'));
+$breadcrumb->assign(lang('system', 'extensions'), uri('acp/system/extensions'));
+$breadcrumb->assign(lang('system', 'mod_list'));
 $mod_list = $modules->modulesList();
 foreach ($mod_list as $name => $info) {
 	if ($info['protected']) {

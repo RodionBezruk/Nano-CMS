@@ -1,6 +1,9 @@
 <?php
 if (!defined('IN_ADM'))
 	exit;
+$breadcrumb->assign(lang('system', 'system'), uri('acp/system'));
+$breadcrumb->assign(lang('system', 'maintenance'), uri('acp/system/maintenance'));
+$breadcrumb->assign(lang('system', 'update_check'));
 $file = @file_get_contents('http:
 if ($file) {
 	$content = explode('||', $file);
@@ -12,5 +15,5 @@ if ($file) {
 	}
 	$tpl->assign('update', $content);
 }
-$content = $tpl->fetch('system/updates.html');
+$content = $tpl->fetch('system/update_check.html');
 ?>
