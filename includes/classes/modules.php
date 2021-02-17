@@ -7,18 +7,17 @@ class modules
 	public $gen = array();
 	function __construct()
 	{
-		if (!empty($_GET['stm']) && preg_match('/^(acp\/)/', $_GET['stm'])) {
+		if (!empty($_GET['stm']) && strpos($_GET['stm'], 'acp/') !== false) {
 			define('IN_ADM', true);
 			$_GET['stm'] = substr($_GET['stm'], 4, strlen($_GET['stm']));
 		} else {
 			define('IN_ACP3', true);
 		}
-		$stm = !empty($_GET['stm']) ? explode('/', $_GET['stm']) : null;
+		$stm = !empty($_GET['stm']) ? explode('/', $_GET['stm']) : 0;
 		$def_mod = defined('IN_ADM') ? 'home' : 'news';
 		$def_page = defined('IN_ADM') ? 'adm_list' : 'list';
 		$this->mod = !empty($stm[0]) ? $stm[0] : $def_mod;
 		$this->page = !empty($stm[1]) ? $stm[1] : $def_page;
-		$this->id = '0';
 		$this->cat = !empty($_POST['cat']) ? $_POST['cat'] : '0';
 		$this->action = !empty($_POST['action']) ? $_POST['action'] : $this->page;
 		if (!empty($stm[2])) {
