@@ -11,7 +11,7 @@ if (CONFIG_MAINTENANCE == '1' && defined('IN_ACP3')) {
 } else {
 	$auth = new auth;
 	if (!$auth->is_user() && defined('IN_ADM') && $modules->mod != 'users' && $modules->page != 'login') {
-		redirect('acp/users/login');
+		redirect('users/login');
 	}
 	include 'modules/users/sidebar.php';
 	if ($modules->check('pages', 'functions')) {
@@ -25,7 +25,7 @@ if (CONFIG_MAINTENANCE == '1' && defined('IN_ACP3')) {
 	} elseif (is_file('modules/errors/404.php')) {
 		redirect('errors/404');
 	}
-	header('Content-Type: ' . (defined('CUSTOM_CONTENT_TYPE') ? CUSTOM_CONTENT_TYPE : 'text/html') . '; charset=' . CHARSET);
+	header('Content-Type: ' . (defined('CUSTOM_CONTENT_TYPE') ? CUSTOM_CONTENT_TYPE : 'text/html') . '; charset=UTF-8');
 	$tpl->assign('title', $breadcrumb->output(2));
 	$tpl->assign('breadcrumb', $breadcrumb->output());
 	$tpl->display(defined('CUSTOM_LAYOUT') ? CUSTOM_LAYOUT : 'layout.html');

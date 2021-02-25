@@ -208,7 +208,7 @@ switch ($modules->action) {
 			$user = $db->select('id, name, mail', 'users', $where_stmt);
 			$subject = sprintf(lang('users', 'forgot_pwd_mail_subject'), CONFIG_TITLE, htmlentities($_SERVER['HTTP_HOST']));
 			$message = sprintf(lang('users', 'forgot_pwd_mail_message'), $user[0]['nickname'], CONFIG_TITLE, htmlentities($_SERVER['HTTP_HOST']), $user[0]['mail'], $new_password);
-			$header = 'Content-type: text/plain; charset=' . CHARSET;
+			$header = 'Content-type: text/plain; charset=UTF-8';
 			$mail_sent = @mail($user[0]['mail'], $subject, $message, $header);
 			if ($mail_sent) {
 				$update_values = array(
@@ -246,7 +246,7 @@ switch ($modules->action) {
 			$salt = salt(12);
 			$subject = sprintf(lang('users', 'register_mail_subject'), CONFIG_TITLE, htmlentities($_SERVER['HTTP_HOST']));
 			$message = sprintf(lang('users', 'register_mail_message'), $db->escape($form['nickname']), CONFIG_TITLE, htmlentities($_SERVER['HTTP_HOST']), $form['mail'], $form['pwd']);
-			$header = 'Content-type: text/plain; charset=' . CHARSET;
+			$header = 'Content-type: text/plain; charset=UTF-8';
 			$mail_sent = @mail($form['mail'], $subject, $message, $header);
 			if ($mail_sent) {
 				$insert_values = array(
